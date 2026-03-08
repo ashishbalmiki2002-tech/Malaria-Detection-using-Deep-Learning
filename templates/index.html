@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Malaria Detection - AI-Powered Diagnosis</title>
+	<link rel="shortcut icon" type="image/png" href="{{url_for('static', filename='images/icon.png')}}">
+	<link rel="stylesheet" href="static/css/style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+	<div class="loader">
+        <img src="{{url_for('static', filename='images/splash.gif')}}" />
+    </div>
+
+	<!-- Navigation -->
+	<nav class="navbar">
+		<div class="nav-container">
+			<div class="logo">
+				<img src="{{url_for('static', filename='images/logo.png')}}" alt="Logo">
+				<span>Malaria Detector</span>
+			</div>
+			<ul class="nav-menu">
+				<li><a href="#home">Home</a></li>
+				<li><a href="#about">About</a></li>
+				<li><a href="#features">Features</a></li>
+				<li><a href="/team">Team</a></li>
+			</ul>
+		</div>
+	</nav>
+
+	<!-- Hero Section -->
+	<section id="home" class="hero">
+		<div class="hero-content">
+			<h1 class="hero-title">AI-Powered Malaria Detection</h1>
+			<p class="hero-subtitle">Fast, accurate, and reliable diagnosis using deep learning technology</p>
+			<div class="hero-buttons">
+				<a href="/form" class="btn btn-primary">
+					<i class="fas fa-microscope"></i> Start Detection
+				</a>
+				<a href="#about" class="btn btn-secondary">
+					<i class="fas fa-info-circle"></i> Learn More
+				</a>
+			</div>
+			<div class="hero-stats">
+				<div class="stat">
+					<h3>95%+</h3>
+					<p>Accuracy</p>
+				</div>
+				<div class="stat">
+					<h3>&lt;5s</h3>
+					<p>Analysis Time</p>
+				</div>
+				<div class="stat">
+					<h3>24/7</h3>
+					<p>Available</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- About Section -->
+	<section id="about" class="about">
+		<div class="section-container">
+			<h2 class="section-title">About Malaria Detection</h2>
+			<div class="about-content">
+				<div class="about-text">
+					<p>Malaria is a life-threatening disease caused by parasites transmitted through mosquito bites. Early detection is crucial for effective treatment.</p>
+					<p>Our AI-powered system uses advanced deep learning algorithms to analyze blood cell images and detect malaria parasites with high accuracy, providing rapid results to support medical professionals.</p>
+					<div class="stats-highlight">
+						<i class="fas fa-exclamation-triangle"></i>
+						<p>According to WHO, there were approximately 249 million malaria cases worldwide in 2022, resulting in 608,000 deaths.</p>
+					</div>
+				</div>
+				<div class="about-image">
+					<i class="fas fa-virus fa-10x"></i>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Features Section -->
+	<section id="features" class="features">
+		<div class="section-container">
+			<h2 class="section-title">Key Features</h2>
+			<div class="features-grid">
+				<div class="feature-card">
+					<div class="feature-icon">
+						<i class="fas fa-brain"></i>
+					</div>
+					<h3>Deep Learning</h3>
+					<p>Powered by Convolutional Neural Networks trained on thousands of cell images</p>
+				</div>
+				<div class="feature-card">
+					<div class="feature-icon">
+						<i class="fas fa-bolt"></i>
+					</div>
+					<h3>Fast Results</h3>
+					<p>Get accurate predictions in seconds, enabling quick decision-making</p>
+				</div>
+				<div class="feature-card">
+					<div class="feature-icon">
+						<i class="fas fa-chart-line"></i>
+					</div>
+					<h3>High Accuracy</h3>
+					<p>Trained model achieves over 95% accuracy in detecting parasitized cells</p>
+				</div>
+				<div class="feature-card">
+					<div class="feature-icon">
+						<i class="fas fa-user-md"></i>
+					</div>
+					<h3>Medical Support</h3>
+					<p>Assists healthcare professionals in making informed diagnostic decisions</p>
+				</div>
+				<div class="feature-card">
+					<div class="feature-icon">
+						<i class="fas fa-mobile-alt"></i>
+					</div>
+					<h3>Easy to Use</h3>
+					<p>Simple interface - just upload an image and get instant results</p>
+				</div>
+				<div class="feature-card">
+					<div class="feature-icon">
+						<i class="fas fa-shield-alt"></i>
+					</div>
+					<h3>Secure & Private</h3>
+					<p>Your data is processed securely and not stored permanently</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- How It Works Section -->
+	<section class="how-it-works">
+		<div class="section-container">
+			<h2 class="section-title">How It Works</h2>
+			<div class="steps">
+				<div class="step">
+					<div class="step-number">1</div>
+					<i class="fas fa-upload"></i>
+					<h3>Upload Image</h3>
+					<p>Upload a microscopic image of a blood cell</p>
+				</div>
+				<div class="step-arrow">
+					<i class="fas fa-arrow-right"></i>
+				</div>
+				<div class="step">
+					<div class="step-number">2</div>
+					<i class="fas fa-cogs"></i>
+					<h3>AI Analysis</h3>
+					<p>Our CNN model analyzes the cell structure</p>
+				</div>
+				<div class="step-arrow">
+					<i class="fas fa-arrow-right"></i>
+				</div>
+				<div class="step">
+					<div class="step-number">3</div>
+					<i class="fas fa-check-circle"></i>
+					<h3>Get Results</h3>
+					<p>Receive instant diagnosis with confidence score</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- CTA Section -->
+	<section class="cta">
+		<div class="cta-content">
+			<h2>Ready to Detect Malaria?</h2>
+			<p>Upload your blood cell image and get instant AI-powered analysis</p>
+			<a href="/form" class="btn btn-large">
+				<i class="fas fa-microscope"></i> Start Detection Now
+			</a>
+		</div>
+	</section>
+
+	<!-- Footer -->
+	<footer class="footer">
+		<div class="footer-content">
+			<p>&copy; 2024 Malaria Detection System. AI-powered healthcare solution.</p>
+			<div class="footer-links">
+				<a href="/team">Team</a>
+				<a href="#about">About</a>
+				<a href="https://github.com" target="_blank"><i class="fab fa-github"></i></a>
+			</div>
+		</div>
+	</footer>
+
+<script src="static/js/script.js"></script>
+</body>
+</html>

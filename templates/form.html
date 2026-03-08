@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Upload Image - Malaria Detection</title>
+	<link rel="shortcut icon" type="image/png" href="{{url_for('static', filename='images/icon.png')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style_inputpage.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar-top">
+        <div class="nav-content">
+            <a href="/" class="logo-link">
+                <img src="{{url_for('static', filename='images/logo.png')}}" alt="Logo">
+                <span>Malaria Detector</span>
+            </a>
+            <a href="/" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="upload-section">
+            <div class="upload-card">
+                <div class="card-header">
+                    <i class="fas fa-microscope"></i>
+                    <h1>Upload Blood Cell Image</h1>
+                    <p>Upload a microscopic image of a blood cell for malaria detection</p>
+                </div>
+
+                <form id="uploadForm" action="/predict" method="POST" enctype="multipart/form-data">
+                    <div class="upload-area" id="uploadArea">
+                        <input type="file" id="fileInput" name="file" accept="image/*" style="display: none;">
+                        
+                        <div id="uploadPrompt" class="upload-prompt">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <h3>Drag & Drop your image here</h3>
+                            <p>or</p>
+                            <button id="imageBtn" type="button" class="btn-upload">
+                                <i class="fas fa-folder-open"></i> Browse Files
+                            </button>
+                            <span class="file-info">Supported formats: JPG, PNG, JPEG (Max 16MB)</span>
+                        </div>
+
+                        <div id="imagePreview" class="image-preview" style="display: none;">
+                            <div class="preview-header">
+                                <h4><i class="fas fa-image"></i> Image Preview</h4>
+                                <button type="button" id="removeBtn" class="btn-remove">
+                                    <i class="fas fa-times"></i> Remove
+                                </button>
+                            </div>
+                            <div id="previewContainer" class="preview-container"></div>
+                            <div class="file-details" id="fileDetails"></div>
+                        </div>
+                    </div>
+
+                    <button id="submitBtn" type="submit" class="btn-analyze" style="display: none;">
+                        <i class="fas fa-brain"></i> Analyze Image
+                        <span class="btn-arrow">→</span>
+                    </button>
+                </form>
+
+                <div class="info-section">
+                    <h3><i class="fas fa-info-circle"></i> Guidelines</h3>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Use clear, high-quality microscopic images</li>
+                        <li><i class="fas fa-check"></i> Ensure the blood cell is clearly visible</li>
+                        <li><i class="fas fa-check"></i> Avoid blurry or low-resolution images</li>
+                        <li><i class="fas fa-check"></i> Single cell images work best</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Sample Images Section -->
+            <div class="samples-section">
+                <h3><i class="fas fa-images"></i> Sample Images</h3>
+                <div class="samples-grid">
+                    <div class="sample-card">
+                        <div class="sample-badge parasitized">Parasitized</div>
+                        <i class="fas fa-image fa-3x"></i>
+                        <p>Infected Cell</p>
+                    </div>
+                    <div class="sample-card">
+                        <div class="sample-badge uninfected">Uninfected</div>
+                        <i class="fas fa-image fa-3x"></i>
+                        <p>Healthy Cell</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const imageBtn = document.getElementById('imageBtn');
+        const uploadPrompt = document.getElementById('uploadPrompt');
+        const imagePreview = document.getElementById('imagePreview');
+        const previewContainer = document.getElementById('previewContainer');
+        const submitBtn = document.getElementById('submitBtn');
+        const removeBtn = document.getElementById('removeBtn');
+        const fileDetails = document.getElementById('fileDetails');
+
+        // Click to upload
+        imageBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            fileInput.click();
+        });
+
+        // Drag and drop
+        uploadArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            uploadArea.classList.add('drag-over');
+        });
+
+        uploadArea.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            uploadArea.classList.remove('drag-over');
+        });
+
+        uploadArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            uploadArea.classList.remove('drag-over');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                fileInput.files = files;
+                handleFileSelect(files[0]);
+            }
+        });
+
+        // File input change
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                handleFileSelect(file);
+            }
+        });
+
+        // Remove button
+        removeBtn.addEventListener('click', function() {
+            fileInput.value = '';
+            uploadPrompt.style.display = 'block';
+            imagePreview.style.display = 'none';
+            submitBtn.style.display = 'none';
+            previewContainer.innerHTML = '';
+        });
+
+        function handleFileSelect(file) {
+            if (!file.type.match('image.*')) {
+                alert('Please select an image file');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                uploadPrompt.style.display = 'none';
+                imagePreview.style.display = 'block';
+                submitBtn.style.display = 'flex';
+                
+                previewContainer.innerHTML = '<img src="' + event.target.result + '" alt="Preview">';
+                
+                const fileSize = (file.size / 1024 / 1024).toFixed(2);
+                fileDetails.innerHTML = `
+                    <div class="detail-item">
+                        <i class="fas fa-file"></i>
+                        <span>${file.name}</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-weight"></i>
+                        <span>${fileSize} MB</span>
+                    </div>
+                `;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Form submission animation
+        document.getElementById('uploadForm').addEventListener('submit', function() {
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
+            submitBtn.disabled = true;
+        });
+    </script>
+</body>
+</html>

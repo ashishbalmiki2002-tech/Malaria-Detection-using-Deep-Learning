@@ -1,0 +1,22 @@
+{
+  "params": {
+    "project_admin_name": "Project Admin",
+    "project_admin_github_url": "https://github.com",
+    "project_admin_linkedin_url": "https://linkedin.com",
+    "1_mentor_name": "Mentor 1",
+    "1_mentor_github_url": "https://github.com",
+    "1_mentor_linkedin_url": "https://linkedin.com",
+    "2_mentor_name": "Mentor 2",
+    "2_mentor_github_url": "https://github.com",
+    "2_mentor_linkedin_url": "https://linkedin.com",
+    "3_mentor_name": "Mentor 3",
+    "3_mentor_github_url": "https://github.com",
+    "3_mentor_linkedin_url": "https://linkedin.com",
+    "4_mentor_name": "Mentor 4",
+    "4_mentor_github_url": "https://github.com",
+    "4_mentor_linkedin_url": "https://linkedin.com",
+    "5_mentor_name": "Mentor 5",
+    "5_mentor_github_url": "https://github.com",
+    "5_mentor_linkedin_url": "https://linkedin.com"
+  }
+}

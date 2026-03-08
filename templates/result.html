@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Detection Results - Malaria Detection</title>
+	<link rel="shortcut icon" type="image/png" href="{{url_for('static', filename='images/icon.png')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style_result.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar-top">
+        <div class="nav-content">
+            <a href="/" class="logo-link">
+                <img src="{{url_for('static', filename='images/logo.png')}}" alt="Logo">
+                <span>Malaria Detector</span>
+            </a>
+            <a href="/" class="back-btn">
+                <i class="fas fa-home"></i> Home
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        {% if prediction %}
+        <div class="result-card">
+            <!-- Header -->
+            <div class="result-header">
+                <i class="fas fa-flask"></i>
+                <h1>Analysis Complete</h1>
+                <p>AI-powered malaria detection results</p>
+            </div>
+
+            {% if mock_mode %}
+            <div class="alert-demo">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div>
+                    <strong>Demo Mode Active</strong>
+                    <p>Using simulated predictions. Install TensorFlow for real detection.</p>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Result Display -->
+            <div class="result-display">
+                {% if prediction == 'Parasitized' %}
+                <div class="result-icon parasitized">
+                    <i class="fas fa-virus"></i>
+                </div>
+                <h2 class="result-title parasitized">Parasitized Cell Detected</h2>
+                <p class="result-description">The blood cell shows signs of malaria parasite infection</p>
+                {% elif prediction == 'Uninfected' %}
+                <div class="result-icon uninfected">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h2 class="result-title uninfected">Uninfected Cell</h2>
+                <p class="result-description">The blood cell appears to be healthy with no signs of infection</p>
+                {% else %}
+                <div class="result-icon error">
+                    <i class="fas fa-exclamation-circle"></i>
+                </div>
+                <h2 class="result-title error">{{ prediction }}</h2>
+                <p class="result-description">{{ certainty }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Confidence Score -->
+            {% if prediction != 'Error' %}
+            <div class="confidence-section">
+                <h3><i class="fas fa-chart-line"></i> Confidence Score</h3>
+                <div class="confidence-bar-container">
+                    <div class="confidence-bar {% if prediction == 'Parasitized' %}parasitized{% else %}uninfected{% endif %}" 
+                         style="width: {{ certainty }}%">
+                        <span class="confidence-text">{{ certainty }}%</span>
+                    </div>
+                </div>
+                <div class="confidence-labels">
+                    <span>Low</span>
+                    <span>Medium</span>
+                    <span>High</span>
+                </div>
+            </div>
+
+            <!-- Result Cards -->
+            <div class="result-cards">
+                <div class="info-card {% if prediction == 'Parasitized' %}active{% endif %}">
+                    <div class="card-icon parasitized">
+                        <i class="fas fa-virus"></i>
+                    </div>
+                    <h4>Parasitized</h4>
+                    <p>Malaria parasite detected in the blood cell</p>
+                </div>
+                <div class="info-card {% if prediction == 'Uninfected' %}active{% endif %}">
+                    <div class="card-icon uninfected">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4>Uninfected</h4>
+                    <p>No malaria parasite detected in the blood cell</p>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Recommendations -->
+            {% if prediction == 'Parasitized' %}
+            <div class="recommendations warning">
+                <h3><i class="fas fa-user-md"></i> Medical Recommendations</h3>
+                <ul>
+                    <li><i class="fas fa-check"></i> Consult a healthcare professional immediately</li>
+                    <li><i class="fas fa-check"></i> Get a confirmatory laboratory test</li>
+                    <li><i class="fas fa-check"></i> Start treatment as prescribed by your doctor</li>
+                    <li><i class="fas fa-check"></i> Monitor symptoms closely</li>
+                </ul>
+                <div class="warning-note">
+                    <i class="fas fa-info-circle"></i>
+                    <p><strong>Important:</strong> This is an AI-assisted diagnosis tool. Always consult with a qualified healthcare professional for proper medical advice and treatment.</p>
+                </div>
+            </div>
+            {% elif prediction == 'Uninfected' %}
+            <div class="recommendations success">
+                <h3><i class="fas fa-heartbeat"></i> Health Tips</h3>
+                <ul>
+                    <li><i class="fas fa-check"></i> Continue preventive measures against mosquito bites</li>
+                    <li><i class="fas fa-check"></i> Use mosquito nets and repellents</li>
+                    <li><i class="fas fa-check"></i> Maintain good hygiene and health practices</li>
+                    <li><i class="fas fa-check"></i> Regular health check-ups are recommended</li>
+                </ul>
+            </div>
+            {% endif %}
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <a href="/form" class="btn btn-primary">
+                    <i class="fas fa-redo"></i> Analyze Another Image
+                </a>
+                <button onclick="window.print()" class="btn btn-secondary">
+                    <i class="fas fa-print"></i> Print Results
+                </button>
+                <a href="/" class="btn btn-outline">
+                    <i class="fas fa-home"></i> Back to Home
+                </a>
+            </div>
+
+            <!-- Disclaimer -->
+            <div class="disclaimer">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p><strong>Disclaimer:</strong> This tool is designed to assist medical professionals and should not replace professional medical diagnosis. Always seek advice from qualified healthcare providers for accurate diagnosis and treatment.</p>
+            </div>
+        </div>
+        {% else %}
+        <div class="result-card">
+            <div class="result-header">
+                <i class="fas fa-times-circle"></i>
+                <h1>No Results Available</h1>
+                <p>Please upload an image to get analysis results</p>
+            </div>
+            <div class="action-buttons">
+                <a href="/form" class="btn btn-primary">
+                    <i class="fas fa-upload"></i> Upload Image
+                </a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="static/js/script.js"></script>
+    <script>
+        // Animate confidence bar on load
+        window.addEventListener('load', function() {
+            const bar = document.querySelector('.confidence-bar');
+            if (bar) {
+                setTimeout(() => {
+                    bar.style.opacity = '1';
+                    bar.style.transform = 'scaleX(1)';
+                }, 300);
+            }
+        });
+    </script>
+</body>
+</html>
